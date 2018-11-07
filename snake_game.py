@@ -7,9 +7,10 @@ class SnakeGame:
     LEFT = [-1, 0]
     RIGHT =[1, 0]
 
-    def __init__(self, board_width, board_height):
+    def __init__(self, board_width, board_height, snake_len):
         self.board_width = board_width
         self.board_height = board_height
+        self.snake_len = snake_len
     
     def start(self):
         self.score = 0
@@ -20,7 +21,7 @@ class SnakeGame:
     def init_snake(self):
         self.snake = []
         self.direction = SnakeGame.UP
-        for h in range(10):
+        for h in range(self.snake_len):
             self.snake.append([int(self.board_width/2), int(self.board_height/2) + h])
 
     def init_food(self): 
@@ -107,6 +108,6 @@ class SnakeUI:
 
 if __name__ == "__main__":
     ui = SnakeUI()
-    game = SnakeGame(20, 20)
+    game = SnakeGame(20, 20, 5)
     game.start()
     ui.run_game_loop(game, None)

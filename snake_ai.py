@@ -49,11 +49,10 @@ class SnakeAi:
         elif i == 1: return SnakeAi.TURN_RIGHT
         else: raise Exception("Unexpected value " + str(i))
 
-    def generate_train_data(self):
+    def generate_train_data(self, game):
         train_data = []
         train_labels = []
         
-        game = SnakeGame(20, 20)
         for _ in range(1000):
             game.start()
             for _ in range(100):
@@ -80,8 +79,8 @@ class SnakeAi:
 
         return (np.array(train_data), np.array(train_labels))
 
-    def fit(self):
-        train_data, train_labels = self.generate_train_data()
+    def fit(self, game):
+        train_data, train_labels = self.generate_train_data(game)
         hidden = 15
         model = models.Sequential()
         model.add(layers.Dense(hidden, activation='relu', input_dim=5))
@@ -107,10 +106,11 @@ class SnakeAi:
         return direction
 
 if __name__ == "__main__":
+    game = SnakeGame(20, 20, 3)
     ai = SnakeAi()
-    ai.fit()
+    ai.fit(game)
 
     ui = SnakeUI()
-    game = SnakeGame(20, 20)
+    
     game.start()
     ui.run_game_loop(game, ai)
